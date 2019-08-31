@@ -1,29 +1,65 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <w-header></w-header>
+
+    <div class="main container">
+      <!-- 路由出口 -->
+      <router-view></router-view>
     </div>
-    <router-view/>
+
+    <w-footer></w-footer>
   </div>
 </template>
+<script>
+import wFooter from './components/footer.vue';
+import wHeader from './components/header.vue';
 
+export default {
+  name: 'App',
+  components: {
+    wFooter,
+    wHeader,
+  },
+};
+</script>
 <style lang="less">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  html, body {
+    height: 100%;
+    width: 100%;
   }
-}
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+    background-color: #fff;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 5px;
+  }
+
+  .main {
+    width: 1100px;
+    margin: 0 auto;
+  }
+
+  .container {
+    min-height: calc(100% - 40px);
+    overflow-y: auto;
+  }
+
+  #app {
+    box-sizing: border-box;
+    position: relative;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100%;
+    padding-bottom: 40px;
+  }
 </style>

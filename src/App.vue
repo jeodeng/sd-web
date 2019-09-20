@@ -11,8 +11,8 @@
   </div>
 </template>
 <script>
-import wFooter from './components/footer.vue';
-import wHeader from './components/header.vue';
+import wFooter from '@/components/footer.vue';
+import wHeader from '@/components/header.vue';
 
 export default {
   name: 'App',
@@ -56,10 +56,13 @@ export default {
   #app {
     box-sizing: border-box;
     position: relative;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100%;
     padding-bottom: 40px;
+    background-image: linear-gradient(180deg,rgba(27,31,35,.065),rgba(27,31,35,0))!important;
+    background-repeat: no-repeat!important;
+    background-size: 100% 200px!important;
   }
 </style>

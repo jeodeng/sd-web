@@ -9,7 +9,7 @@
         <div class="right">
           <el-button type="text" size="small">Help</el-button>
           <el-button type="text" size="small">登录</el-button>
-          <el-button type="primary" size="small">注册</el-button>
+          <el-button type="text" size="small" @click="handleRegister()">注册</el-button>
           <el-dropdown trigger="click" @command="handleClickNation">
             <span class="el-dropdown-link">
               {{ curNation === '' ? '语言' : nationKeys.find(i => i.key === curNation).name }}
@@ -49,6 +49,9 @@ export default {
     handleClickNation(key) {
       this.curNation = key;
     },
+    handleRegister() {
+      this.$router.push('/register');
+    },
   },
 };
 </script>
@@ -60,7 +63,7 @@ export default {
     .user-btns {
       font-size: 12px;
       background: #000;
-      height: 32px;
+      height: 100%;
       color: #f2f6fc;
 
       .main {
@@ -79,15 +82,12 @@ export default {
         color: #fff;
       }
 
-      .el-button--text {
-        padding: 0;
+      .el-button:hover {
+        text-decoration: underline;
       }
 
-      .el-button--primary {
-        padding: 4px 12px;
-        border: 1px solid #fff;
-        background-color: transparent;
-        border-radius: 0;
+      .el-button--text {
+        padding: 0;
       }
     }
 
@@ -95,13 +95,19 @@ export default {
       width: 130px;
     }
 
+    .el-dropdown {
+      margin-left: 18px;
+    }
+
     .el-dropdown-link {
       cursor: pointer;
-      color: #888;
+      color: #cecece;
+      font-size: 12px;
+      line-height: 16px;
     }
 
     .el-dropdown-link:hover {
-      color: #409eff;
+      color: #e4e4e4;
     }
 
     .el-icon-arrow-down {

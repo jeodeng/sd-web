@@ -10,7 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: Home,
     },
     {
@@ -22,6 +22,11 @@ export default new Router({
       path: '/category',
       name: 'Category',
       component: () => import(/* webpackChunkName: "about" */ '../views/category.vue'),
+    },
+    {
+      path: '/register',
+      name: 'Register',
+      component: () => import(/* webpackChunkName: "about" */ '../views/register.vue'),
     },
   ],
 });

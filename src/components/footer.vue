@@ -1,7 +1,7 @@
 <template>
   <!-- 底部footer组件 -->
   <div class="footer">
-    Copyright © 2019 Jeodeng. 保留所有权利。
+    Copyright © 2019 Jeodeng, Inc. or its affiliates
   </div>
 </template>
 <script>

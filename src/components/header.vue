@@ -4,12 +4,12 @@
     <div class="user-btns">
       <div class="main">
         <div class="left">
-          <span>欢迎你！</span>
+          <el-button type="text" size="small" @click="handleHome" :style="{ color: '#fff' }">Welcome！</el-button>
         </div>
         <div class="right">
           <el-button type="text" size="small">Help</el-button>
-          <el-button type="text" size="small">登录</el-button>
-          <el-button type="text" size="small" @click="handleRegister()">注册</el-button>
+          <el-button type="text" size="small" @click="handleSignIn">Sign in</el-button>
+          <el-button type="text" size="small" class="border" @click="handleSignUp()">Sign up</el-button>
           <el-dropdown trigger="click" @command="handleClickNation">
             <span class="el-dropdown-link">
               {{ curNation === '' ? '语言' : nationKeys.find(i => i.key === curNation).name }}
@@ -49,8 +49,14 @@ export default {
     handleClickNation(key) {
       this.curNation = key;
     },
-    handleRegister() {
+    handleSignIn() {
+      this.$store.commit('toggleLogin', true);
+    },
+    handleSignUp() {
       this.$router.push('/register');
+    },
+    handleHome() {
+      this.$router.push('/');
     },
   },
 };
@@ -79,11 +85,24 @@ export default {
       }
 
       .el-button {
-        color: #fff;
+        color: #ccc;
+        box-sizing: border-box;
+
+        &:hover {
+          color: #f5f7fa;
+        }
       }
 
-      .el-button:hover {
-        text-decoration: underline;
+      .el-button.border {
+        border: 1px solid #ccc;
+        padding: 4px 6px;
+        border-radius: 0;
+        transition: .3s;
+
+        &:hover {
+          text-decoration: none;
+          border-color: #f5f7fa;
+        }
       }
 
       .el-button--text {

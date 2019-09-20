@@ -13,13 +13,13 @@
           size="small"
           icon="el-icon-shopping-cart-full"
           @click="handleAddCart(data)">
-          AAA
+          Add to Cart
         </el-button>
         <el-button
           size="small"
           icon="el-icon-view"
           @click="handleViewDetail(data)">
-          BBB
+          View Detail
         </el-button>
       </div>
     </div>
@@ -54,7 +54,6 @@ export default {
 <style lang='less'>
   .good-view {
     box-sizing: border-box;
-    padding: 10px;
 
     .view-main {
       border-radius: 4px;
@@ -128,7 +127,7 @@ export default {
           font-size: 14px;
 
           i {
-            margin-right: 8px;
+            margin-right: 4px;
           }
         }
 

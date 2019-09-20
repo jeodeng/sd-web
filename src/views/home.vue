@@ -3,13 +3,13 @@
     <div class="home-top">
       <div class="home-logo">
         <span>
-          HERE
+          This is a Logo
         </span>
       </div>
       <div class="home-search">
         <div class="search-box">
           <div class="el-icon-search"></div>
-          <input class="input" type="text" v-model="input">
+          <input class="input" type="text" v-model="input" placeholder="search...">
           <div class="el-icon-search btn"></div>
         </div>
 
@@ -17,14 +17,20 @@
       <div class="home-cart">
         <div class="cart-box">
           <i class="el-icon-shopping-cart-2"></i>
-          <span>XXX</span>
+          <span>Cart</span>
         </div>
       </div>
     </div>
     <swiper></swiper>
     <div class="home-main">
+      <h4 class="home-list-title">
+        ★ On Sale ★
+      </h4>
       <div class="home-list">
         <good-view v-for="i in 20" :key="i"></good-view>
+      </div>
+      <div class="home-list-more">
+        <el-button type="text">More >></el-button>
       </div>
     </div>
   </div>
@@ -50,17 +56,14 @@ export default {
 <style lang='less'>
   .home {
     .home-top {
-      background: green;
       height: 100px;
       display: flex;
-      visibility: hidden;
 
       .home-logo {
         flex: 1;
         max-width: 240px;
         min-width: 240px;
         height: 100%;
-        background: white;
 
         display: flex;
         align-items: center;
@@ -73,11 +76,10 @@ export default {
         flex: 1;
         justify-content: flex-end;
         align-items: center;
-        background: white;
         padding-right: 60px;
 
         .search-box {
-          border: 2px solid #e8a419;
+          border: 2px solid #4e4e4e;
           border-radius: 30px;
           width: 70%;
           display: flex;
@@ -98,12 +100,13 @@ export default {
             max-width: 60px;
             min-width: 60px;
             color: white;
-            background-color: #e8a419;
+            background-color: #4e4e4e;
             height: 100%;
             border-radius: 30px;
             line-height: 34px;
             font-size: 18px;
             cursor: pointer;
+            margin-right: -1px;
           }
 
           .input {
@@ -111,6 +114,7 @@ export default {
             flex: 1;
             border: none;
             font-size: 14px;
+            background: transparent;
           }
         }
       }
@@ -120,19 +124,19 @@ export default {
         width: 160px;
         max-width: 160px;
         min-width: 160px;
-        background: blue;
         align-items: center;
         display: flex;
         justify-content: center;
 
         .cart-box {
+          cursor: pointer;
           box-sizing: border-box;
           width: 108px;
           height: 38px;
           border-radius: 30px;
           text-align: center;
-          border: 2px solid #e8a419;
-          line-height: 38px;
+          border: 2px solid #4e4e4e;
+          line-height: 34px;
           font-size: 16px;
 
           span {
@@ -145,11 +149,31 @@ export default {
     .home-list {
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
 
       .good-view {
-        width: 20%;
-        height: 330px;
+        width: 18%;
+        height: 274px;
+        margin-top: 28px;
+
+        .view-main {
+          padding: 10px 0;
+        }
       }
+    }
+
+    .home-list-more {
+      text-align: right;
+    }
+
+    .home-list-title {
+      background: #d61818;
+      color: rgb(247, 247, 247);
+      text-align: center;
+      line-height: 60px;
+      font-size: 30px;
+      margin-top: 28px;
+      font-weight: 600;
     }
   }
 </style>

@@ -107,7 +107,6 @@ export default {
 <style lang='less'>
   .swiper {
     position: relative;
-    visibility: hidden;
 
     .image {
       width: 100%;

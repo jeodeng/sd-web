@@ -35,7 +35,7 @@
         </div>
 
         <div class="sign-in-dialog-btn">
-          <el-button type="primary" @click="handleCloseSignIn" size="small">Sign in</el-button>
+          <el-button type="primary" @click="goLogin" size="small">Sign in</el-button>
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
@@ -48,9 +48,16 @@
   </div>
 </template>
 <script>
+import { login } from '@/api/user';
+
 import { mapState } from 'vuex';
 import wFooter from '@/components/footer.vue';
 import wHeader from '@/components/header.vue';
+
+const buildLoginForm = () => ({
+  uid: '345369367@qq.com',
+  pwd: '123456',
+});
 
 export default {
   name: 'App',
@@ -58,27 +65,41 @@ export default {
     wFooter,
     wHeader,
   },
+  data() {
+    return {
+      loginForm: buildLoginForm(),
+    };
+  },
   computed: {
     ...mapState([
       'hasShowLogin',
     ]),
   },
-  data() {
-    return {
-      loginForm: {
-        uid: '',
-        pwd: '',
-      },
-    };
+  watch: {
+    hasShowLogin() {
+      this.loginForm = buildLoginForm();
+    },
   },
   methods: {
     handleCloseSignIn() {
       this.$store.commit('toggleLogin', false);
     },
+    async goLogin() {
+      const { loginForm } = this;
+
+      const payload = {
+        loginName: loginForm.uid.trim(),
+        password: loginForm.pwd.trim(),
+        type: 0
+      }
+
+      const result = await login(payload);
+      console.log(result, payload);
+    },
   },
 };
 </script>
-<style lang="less">
+<style lang="scss">
   html, body {
     height: 100%;
     width: 100%;

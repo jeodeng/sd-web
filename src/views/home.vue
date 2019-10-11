@@ -53,7 +53,7 @@ export default {
 };
 </script>
 
-<style lang='less'>
+<style lang='scss'>
   .home {
     .home-top {
       height: 100px;

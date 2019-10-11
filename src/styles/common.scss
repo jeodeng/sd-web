@@ -1,0 +1,86 @@
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 10px;
+    background-color: #fff;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #fff;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    border-radius: 5px;
+  }
+
+  .page-conds {
+    display: flex;
+    flex-wrap: wrap;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      min-width: 290px;
+      width: 290px;
+      max-width: 290px;
+      margin-bottom: 10px;
+
+      &-key {
+        font-size: 12px;
+        margin-right: 8px;
+      }
+
+      &.button {
+        min-width: 74px;
+        width: 74px;
+        max-width: 74px;
+
+        .el-button {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .page-list {
+    margin-top: 50px;
+
+    &-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+
+      &-title {
+        font-size: 14px;
+      }
+
+      &-btns {
+        .el-button {
+          width: 80px;
+        }
+      }
+    }
+
+    &-pagination {
+      text-align: right;
+      margin-top: 20px;
+    }
+  }
+
+  .dialog-content {
+    padding-right: 10px;
+    max-height: 600px;
+    overflow-y: auto;
+
+    .tips {
+      .el-form-item__content {
+        display: flex;
+
+        >.el-tooltip {
+          margin-left: 10px;
+        }
+      }
+    }
+  }

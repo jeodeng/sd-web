@@ -29,6 +29,8 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -41,7 +43,10 @@ export default {
       ],
     };
   },
-  activated() {
+  computed: {
+    ...mapGetters([
+      'token'
+    ])
   },
   mounted() {
   },

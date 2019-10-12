@@ -10,24 +10,25 @@
         <div class="search-box">
           <div class="el-icon-search"></div>
           <input class="input" type="text" v-model="input" placeholder="search...">
-          <div class="el-icon-search btn"></div>
+          <div class="el-icon-search btn" @click="getProductsList"></div>
         </div>
 
       </div>
-      <div class="home-cart">
-        <div class="cart-box">
-          <i class="el-icon-shopping-cart-2"></i>
-          <span>Cart</span>
+      <div class="home-view">
+        <div class="home-view-btn">
+          <span>查看所有产品</span>
         </div>
       </div>
     </div>
-    <swiper></swiper>
     <div class="home-main">
       <h4 class="home-list-title">
         ★ On Sale ★
       </h4>
-      <div class="home-list">
-        <good-view v-for="i in 20" :key="i"></good-view>
+      <div class="home-list" v-if="list && list.length > 0">
+        <good-view v-for="(i, index) in list" :key="index" :data='i' @get="handleGetGood"></good-view>
+      </div>
+      <div class="home-list-loading" v-else>
+        商品加载中
       </div>
       <div class="home-list-more">
         <el-button type="text">More >></el-button>
@@ -37,18 +38,46 @@
 </template>
 
 <script>
-import swiper from '@/components/swiper.vue';
+import { getProducts, getValidProducts } from '@/api/product';
+import storage from '@/utils/storage';
 import goodView from '@/components/goodView.vue';
 
 export default {
   components: {
-    swiper,
     goodView,
   },
   data() {
     return {
       input: '',
+      list: [],
     };
+  },
+  created() {
+    this.getProductsList();
+  },
+  methods: {
+    async handleGetGood(data) {
+      const user = storage.get('user');
+      const result = await getValidProducts({
+        userId: user.userId,
+        productId: data.productId,
+      });
+      console.log(result);
+    },
+    async getProductsList() {
+      const payload = {
+        pageId: 1,
+        size: 20,
+        quertData: {
+          country: '',
+          type: 0,
+          status: 1,
+        },
+      };
+      this.list = [];
+      const { data: res } = await getProducts(payload);
+      this.list = res.records;
+    },
   },
 };
 </script>
@@ -79,7 +108,7 @@ export default {
         padding-right: 60px;
 
         .search-box {
-          border: 2px solid #4e4e4e;
+          border: 2px solid #d61818;
           border-radius: 30px;
           width: 70%;
           display: flex;
@@ -87,6 +116,7 @@ export default {
           align-items: center;
           height: 38px;
           box-sizing: border-box;
+          box-shadow: 2px 2px 2px 0px rgba(72, 68, 66, 0.35);
 
           .el-icon-search {
             flex: 1;
@@ -100,7 +130,7 @@ export default {
             max-width: 60px;
             min-width: 60px;
             color: white;
-            background-color: #4e4e4e;
+            background-color: #d61818;
             height: 100%;
             border-radius: 30px;
             line-height: 34px;
@@ -135,7 +165,7 @@ export default {
           height: 38px;
           border-radius: 30px;
           text-align: center;
-          border: 2px solid #4e4e4e;
+          border: 2px solid #d61818;
           line-height: 34px;
           font-size: 16px;
 
@@ -144,18 +174,41 @@ export default {
           }
         }
       }
+
+      .home-view {
+        flex: 1;
+        width: 160px;
+        max-width: 160px;
+        min-width: 160px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+
+        .home-view-btn {
+          background-color: #d61818;
+          width: 200px;
+          height: 40px;
+          line-height: 40px;
+          color: rgb(247, 247, 247);
+          text-align: center;
+          cursor: pointer;
+          transition: .3s;
+          font-size: 16px;
+          border-radius: 5px;
+          box-shadow: 2px 2px 2px 0px rgba(72, 68, 66, 0.35);
+        }
+      }
     }
 
     .home-list {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
 
       .good-view {
         width: 18%;
         height: 274px;
-        margin-top: 28px;
-
+        margin-top: 20px;
+        margin-right: 20px;
         .view-main {
           padding: 10px 0;
         }

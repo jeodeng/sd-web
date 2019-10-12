@@ -1,7 +1,5 @@
 import Vue from 'vue';
 
-import 'normalize.css/normalize.css' // 一个通用的reset css方案
-
 // 引入插件
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';

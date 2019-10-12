@@ -17,29 +17,130 @@
         </div>
       </div>
     </div>
+
+    <div class="register-form" v-if="curStep === 0">
+      <el-form :model="formData" label-width="120px" ref="accountsForm" :rules="rules">
+        <el-form-item label="邮箱" prop="email" class="tips">
+          <el-input v-model="formData.email" size="small"></el-input>
+          <el-tooltip class="item" effect="dark" content="即登录账号" placement="bottom">
+            <el-button icon="el-icon-question" type="text"></el-button>
+          </el-tooltip>
+        </el-form-item>
+        <el-form-item label="密码" prop="password" class="password-tips">
+          <el-input placeholder="请输入密码" auto-complete="new-password" v-model="formData.password" show-password width="80%"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名" prop="name">
+          <el-input v-model="formData.name" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="Facebook账号" prop="facebookId">
+          <el-input v-model="formData.facebookId" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="Amazon账号" prop="amazonId">
+          <el-input v-model="formData.amazonId" size="small"></el-input>
+        </el-form-item>
+        <el-form-item label="常用邮箱" prop="commonEmail" class="tips">
+          <el-input v-model="formData.commonEmail" size="small" type="textarea" :rows="3"></el-input>
+          <el-tooltip class="item" effect="dark" content="多个邮箱请用逗号隔开" placement="bottom">
+            <el-button icon="el-icon-question" type="text"></el-button>
+          </el-tooltip>
+        </el-form-item>
+      </el-form>
+
+      <div class="register-btns">
+        <el-button type="primary" size="small" @click="handleRegister">立即注册</el-button>
+      </div>
+    </div>
+
+    <div class="register-success" v-if="curStep === 1">
+      恭喜您成功注册为本站用户，您的登录账号为
+      <span>{{ username }}</span>
+      ，5秒后将离开本页面...
+    </div>
   </div>
 </template>
 
 <script>
+import { register } from '@/api/user';
+
+function buildFormData() {
+  return {
+    name: 'dsj',
+    email: '345369367@qq.com',
+    password: '123456',
+    facebookId: '',
+    commonEmail: '',
+    amazonId: '',
+  };
+}
+
 export default {
   data() {
     return {
+      username: '',
+      formData: buildFormData(),
       curStep: 0,
       progressCon: [
         {
           icon: 'el-icon-s-custom',
           desc: 'Set up your account',
         },
-        {
-          icon: 'el-icon-s-tools',
-          desc: 'Complete other information',
-        },
+        // {
+        //   icon: 'el-icon-s-tools',
+        //   desc: 'Complete other information',
+        // },
         {
           icon: 'el-icon-success',
-          desc: 'Waiting for confirmation of customer service',
+          desc: 'Success !',
         },
       ],
+      rules: { // 验证规则
+        username: [
+          { required: true, trigger: 'blur', message: '请输入账号' }
+        ],
+        password: [
+          { required: true, trigger: 'blur', message: '请输入密码' }
+        ],
+        name: [
+          { required: true, trigger: 'blur', message: '请输入姓名' }
+        ],
+        email: [
+          {
+            required: true,
+            trigger: 'blur',
+            validator: (rule, value, callback) => {
+              if (!(/^[\w.-]+@(?=[a-z\d][^.]*\.)[a-z\d.-]*[^.]$/.test(value))) {
+                callback(new Error('请输入正确的邮箱地址'));
+              } else {
+                callback();
+              }
+            },
+          }
+        ],
+      },
     };
+  },
+  created() {
+  },
+  methods: {
+    async handleRegister() {
+      const { formData } = this;
+
+      Object.entries(formData).forEach((kv) => {
+        if (kv[1] === '') formData[kv[0]] = null;
+      });
+
+      await register(formData);
+      await this.$store.dispatch('userLogin', {
+        username: formData.email,
+        password: formData.password,
+      });
+
+      this.username = formData.email;
+      this.curStep = this.curStep + 1;
+      setTimeout(() => {
+        this.$router.push('/');
+      }, 5000);
+    },
   },
 };
 </script>
@@ -123,6 +224,35 @@ export default {
             color: #419645;
           }
         }
+      }
+    }
+
+    .register-form {
+      margin: 20px auto 0;
+      width: 600px;
+
+      .el-form-item__content {
+        position: relative;
+        margin-right: 30px;
+        .el-tooltip {
+          position: absolute;
+          left: calc(100% + 10px);
+          top: 0;
+        }
+      }
+    }
+
+    .register-btns {
+      text-align: right;
+    }
+
+    .register-success {
+      margin-top: 20px;
+      font-size: 12px;
+
+      span {
+        color: #de253f;
+        font-weight: 600;
       }
     }
   }

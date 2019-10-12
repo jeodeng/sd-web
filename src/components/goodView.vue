@@ -17,9 +17,9 @@
         </el-button>
         <el-button
           size="small"
-          icon="el-icon-view"
-          @click="handleViewDetail(data)">
-          View Detail
+          icon="el-icon-star-on"
+          @click="handleGetNow(data)">
+          Get It Now
         </el-button>
       </div>
     </div>
@@ -45,8 +45,8 @@ export default {
     handleAddCart(item) {
       this.$emit('cart', item);
     },
-    handleViewDetail(item) {
-      this.$emit('detail', item);
+    handleGetNow(item) {
+      this.$emit('get', item);
     },
   },
 };

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <w-header></w-header>
-
     <div class="main container">
       <!-- 路由出口 -->
       <router-view></router-view>
@@ -18,10 +17,10 @@
       <div class="sign-in-dialog">
         <div class="account-item">
           <div class="ai-key">
-            Username or email address
+            Email Address
           </div>
           <div class="ai-val">
-            <el-input size="small" v-model="loginForm.uid"></el-input>
+            <el-input placeholder="请输入用户名" v-model="loginForm.username" size="small"></el-input>
           </div>
         </div>
 
@@ -30,7 +29,7 @@
             Password
           </div>
           <div class="ai-val">
-            <el-input size="small" v-model="loginForm.pwd"></el-input>
+            <el-input placeholder="请输入密码" auto-complete="new-password" v-model="loginForm.password" show-password width="80%"></el-input>
           </div>
         </div>
 
@@ -48,15 +47,13 @@
   </div>
 </template>
 <script>
-import { login } from '@/api/user';
-
 import { mapState } from 'vuex';
 import wFooter from '@/components/footer.vue';
 import wHeader from '@/components/header.vue';
 
 const buildLoginForm = () => ({
-  uid: '345369367@qq.com',
-  pwd: '123456',
+  username: '345369367@qq.com',
+  password: '123456',
 });
 
 export default {
@@ -86,15 +83,7 @@ export default {
     },
     async goLogin() {
       const { loginForm } = this;
-
-      const payload = {
-        loginName: loginForm.uid.trim(),
-        password: loginForm.pwd.trim(),
-        type: 0
-      }
-
-      const result = await login(payload);
-      console.log(result, payload);
+      await this.$store.dispatch('userLogin', loginForm);
     },
   },
 };

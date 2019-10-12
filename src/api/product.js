@@ -8,26 +8,12 @@ export function getProducts(data) {
   })
 }
 
-export function getProductsRecords(data) {
+export function getValidProducts(data) {
+  const { userId, productId } = data;
   return request({
-    url: '/take/order/list',
+    url: `/product/verification/${userId}/${productId}`,
     method: 'post',
     data
   })
 }
 
-export function createProducts(data) {
-  return request({
-    url: '/product/add',
-    method: 'post',
-    data
-  })
-}
-
-export function updateProducts(data) {
-  return request({
-    url: '/product/update',
-    method: 'post',
-    data
-  })
-}

@@ -16,25 +16,9 @@ export function logout(userId) {
   })
 }
 
-export function getUsers(data) {
+export function register(data) {
   return request({
-    url: '/user/list',
-    method: 'post',
-    data
-  })
-}
-
-export function createUsers(data) {
-  return request({
-    url: '/user/add',
-    method: 'post',
-    data
-  })
-}
-
-export function updateUsers(data) {
-  return request({
-    url: '/user/update',
+    url: '/user/register',
     method: 'post',
     data
   })

@@ -26,7 +26,7 @@ export default {
   },
   clear() {
     try {
-      localStorage.removeItem(name);
+      localStorage.clear();
       return true;
     } catch (e) {
       this.exception(e);

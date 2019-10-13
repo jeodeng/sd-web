@@ -4,22 +4,39 @@
     <div class="user-btns">
       <div class="main">
         <div class="left">
-          <el-button type="text" size="small" @click="handleHome" :style="{ color: '#fff' }">Welcome！</el-button>
+          <el-button type="text" size="small" @click="handleHome" :style="{ color: '#fff' }">Welcome！{{ name }}</el-button>
         </div>
         <div class="right">
           <el-button type="text" size="small">Help</el-button>
-          <el-button type="text" size="small" @click="handleSignIn">Sign in</el-button>
-          <el-button type="text" size="small" class="border" @click="handleSignUp()">Sign up</el-button>
-          <el-dropdown trigger="click" @command="handleClickNation">
+          <el-button type="text" size="small" @click="handleSignIn" v-if="!token">Sign in</el-button>
+          <el-button type="text" size="small" class="border" @click="handleSignUp()" v-if="!token">Sign up</el-button>
+          <el-dropdown trigger="click" @command="handleClickNation" size="small">
             <span class="el-dropdown-link">
-              {{ curNation === '' ? '语言' : nationKeys.find(i => i.key === curNation).name }}
+              {{ curNation === '' ? 'Language' : nationKeys.find(i => i.key === curNation).name }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
-                v-for="nation in nationKeys"
-                :key="nation.key"
-                :command="nation.key">{{ nation.name }}</el-dropdown-item>
+                v-for="item in nationKeys"
+                :key="item.key"
+                :command="item.key">
+                {{ item.name }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <el-dropdown trigger="click" @command="handleClickPersonal" v-if="token" size="small">
+            <span class="el-dropdown-link">
+              Account
+              <i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown" size="small">
+              <el-dropdown-item
+                v-for="item in personalKeys"
+                :key="item.key"
+                :command="item.key"
+                :divided="item.divided">
+                {{ item.name }}
+              </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -41,18 +58,36 @@ export default {
         { key: '1', name: '法国' },
         { key: '2', name: '意大利' },
       ],
+      personalKeys: [
+        { key: '0', name: 'Settings' },
+        { key: '1', name: 'Sign Out', divided: true },
+      ],
     };
   },
   computed: {
     ...mapGetters([
-      'token'
-    ])
+      'token',
+      'name'
+    ]),
   },
   mounted() {
   },
   methods: {
     handleClickNation(key) {
       this.curNation = key;
+    },
+    async handleClickPersonal(key) {
+      switch (key) {
+        case '0':
+          this.$router.push('/personal');
+          break;
+        case '1':
+          await this.$store.dispatch('userLoginOut');
+          this.$message.success('Exit from current account');
+          location.reload();
+          break;
+        default: break;
+      }
     },
     handleSignIn() {
       this.$store.commit('toggleLogin', true);
@@ -61,7 +96,7 @@ export default {
       this.$router.push('/register');
     },
     handleHome() {
-      this.$router.push('/');
+      this.$router.push('/home');
     },
   },
 };

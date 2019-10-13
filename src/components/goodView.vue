@@ -3,11 +3,11 @@
   <div class="good-view">
     <div class="view-main">
       <div class="view-image">
-        <img src="../assets/view.jpg" alt="">
+        <img :src="data.imgPath" alt="">
       </div>
-      <div class="view-title">xxxxxxx</div>
-      <p class="view-des">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-      <div class="view-price">xxx</div>
+      <div class="view-title">{{ data.productName }}</div>
+      <p class="view-des">{{ data.keyworder }}</p>
+      <div class="view-price">${{ data.foreignPrice }}</div>
       <div class="view-wrap">
         <el-button
           size="small"

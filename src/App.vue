@@ -1,12 +1,13 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{ minWidth: '1300px' }">
     <w-header></w-header>
     <div class="main container">
       <!-- 路由出口 -->
       <router-view></router-view>
-    </div>
 
+    </div>
     <w-footer></w-footer>
+    <shop-cart v-show="hasShowCart"></shop-cart>
 
     <el-dialog
       title="Sign in to XXX"
@@ -50,6 +51,7 @@
 import { mapState } from 'vuex';
 import wFooter from '@/components/footer.vue';
 import wHeader from '@/components/header.vue';
+import shopCart from '@/components/shopCart.vue';
 
 const buildLoginForm = () => ({
   username: '345369367@qq.com',
@@ -61,10 +63,12 @@ export default {
   components: {
     wFooter,
     wHeader,
+    shopCart,
   },
   data() {
     return {
       loginForm: buildLoginForm(),
+      hasShowCart: true,
     };
   },
   computed: {
@@ -76,6 +80,19 @@ export default {
     hasShowLogin() {
       this.loginForm = buildLoginForm();
     },
+    $route(val) {
+      const whiteList = [
+        '/home',
+        '/category',
+      ];
+
+      const { path } = val;
+      if (whiteList.indexOf(path) === -1) {
+        this.hasShowCart = false;
+      } else {
+        this.hasShowCart = true;
+      }
+    },
   },
   methods: {
     handleCloseSignIn() {
@@ -84,6 +101,7 @@ export default {
     async goLogin() {
       const { loginForm } = this;
       await this.$store.dispatch('userLogin', loginForm);
+      this.$store.commit('toggleLogin', false);
     },
   },
 };
@@ -157,6 +175,7 @@ export default {
   }
 
   .container {
+    position: relative;
     min-height: calc(100% - 40px);
     overflow-y: auto;
   }

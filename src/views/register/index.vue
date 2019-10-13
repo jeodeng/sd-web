@@ -20,41 +20,41 @@
 
     <div class="register-form" v-if="curStep === 0">
       <el-form :model="formData" label-width="120px" ref="accountsForm" :rules="rules">
-        <el-form-item label="邮箱" prop="email" class="tips">
+        <el-form-item label="Email" prop="email" class="tips">
           <el-input v-model="formData.email" size="small"></el-input>
-          <el-tooltip class="item" effect="dark" content="即登录账号" placement="bottom">
+          <el-tooltip class="item" effect="dark" content="It's also a login account." placement="bottom">
             <el-button icon="el-icon-question" type="text"></el-button>
           </el-tooltip>
         </el-form-item>
-        <el-form-item label="密码" prop="password" class="password-tips">
-          <el-input placeholder="请输入密码" auto-complete="new-password" v-model="formData.password" show-password width="80%"></el-input>
+        <el-form-item label="Password" prop="password" class="password-tips">
+          <el-input auto-complete="new-password" v-model="formData.password" show-password width="80%"></el-input>
         </el-form-item>
-        <el-form-item label="姓名" prop="name">
+        <el-form-item label="Nickname" prop="name">
           <el-input v-model="formData.name" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="Facebook账号" prop="facebookId">
+        <el-form-item label="Facebook Account" prop="facebookId">
           <el-input v-model="formData.facebookId" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="Amazon账号" prop="amazonId">
+        <el-form-item label="Amazon Account" prop="amazonId">
           <el-input v-model="formData.amazonId" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="常用邮箱" prop="commonEmail" class="tips">
+        <el-form-item label="Other Email Address" prop="commonEmail" class="tips">
           <el-input v-model="formData.commonEmail" size="small" type="textarea" :rows="3"></el-input>
-          <el-tooltip class="item" effect="dark" content="多个邮箱请用逗号隔开" placement="bottom">
+          <el-tooltip class="item" effect="dark" content="Multiple mailboxes separated by commas" placement="bottom">
             <el-button icon="el-icon-question" type="text"></el-button>
           </el-tooltip>
         </el-form-item>
       </el-form>
 
       <div class="register-btns">
-        <el-button type="primary" size="small" @click="handleRegister">立即注册</el-button>
+        <el-button type="primary" size="small" @click="handleRegister">Immediate Registration</el-button>
       </div>
     </div>
 
     <div class="register-success" v-if="curStep === 1">
-      恭喜您成功注册为本站用户，您的登录账号为
+      Congratulations on your successful registration as a website user. Your login account is
       <span>{{ username }}</span>
-      ，5秒后将离开本页面...
+      ，leave this page in 5 seconds...
     </div>
   </div>
 </template>
@@ -95,13 +95,13 @@ export default {
       ],
       rules: { // 验证规则
         username: [
-          { required: true, trigger: 'blur', message: '请输入账号' }
+          { required: true, trigger: 'blur', message: 'Please enter your account number.' }
         ],
         password: [
-          { required: true, trigger: 'blur', message: '请输入密码' }
+          { required: true, trigger: 'blur', message: 'Please input a password' }
         ],
         name: [
-          { required: true, trigger: 'blur', message: '请输入姓名' }
+          { required: true, trigger: 'blur', message: 'Please enter your nickname.' }
         ],
         email: [
           {
@@ -109,7 +109,7 @@ export default {
             trigger: 'blur',
             validator: (rule, value, callback) => {
               if (!(/^[\w.-]+@(?=[a-z\d][^.]*\.)[a-z\d.-]*[^.]$/.test(value))) {
-                callback(new Error('请输入正确的邮箱地址'));
+                callback(new Error('Please enter the correct email address'));
               } else {
                 callback();
               }

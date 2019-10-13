@@ -9,14 +9,14 @@
       <div class="home-search">
         <div class="search-box">
           <div class="el-icon-search"></div>
-          <input class="input" type="text" v-model="input" placeholder="search...">
+          <input class="input" type="text" v-model="searchName" placeholder="search...">
           <div class="el-icon-search btn" @click="getProductsList"></div>
         </div>
 
       </div>
       <div class="home-view">
         <div class="home-view-btn">
-          <span>查看所有产品</span>
+          <span>More Products</span>
         </div>
       </div>
     </div>
@@ -25,12 +25,17 @@
         ★ On Sale ★
       </h4>
       <div class="home-list" v-if="list && list.length > 0">
-        <good-view v-for="(i, index) in list" :key="index" :data='i' @get="handleGetGood"></good-view>
+        <good-view v-for="(item, index) in list" :key="index" :data="item" @get="handleGetGood"></good-view>
       </div>
       <div class="home-list-loading" v-else>
-        商品加载中
+        <div>
+          <i class="el-icon-loading"></i>
+        </div>
+        <div>
+          <span>Loading...</span>
+        </div>
       </div>
-      <div class="home-list-more">
+      <div class="home-list-more" v-show="list && list.length > 0">
         <el-button type="text">More >></el-button>
       </div>
     </div>
@@ -38,7 +43,7 @@
 </template>
 
 <script>
-import { getProducts, getValidProducts } from '@/api/product';
+import { getProducts, getValidProducts, getFreeProducts } from '@/api/product';
 import storage from '@/utils/storage';
 import goodView from '@/components/goodView.vue';
 
@@ -48,8 +53,13 @@ export default {
   },
   data() {
     return {
-      input: '',
+      searchName: '',
       list: [],
+      tips: {
+        amazon: 'Your account has not yet been bound to Amazon account, Amazon ID to get products, do you want to bind Amazon account immediately?',
+        // success: 'Your application is waiting for the staff to process. Please wait patiently. We will inform you of the result by mail.',
+        success: '您的领取申请正在等待工作人员处理，请耐心等待，我们会以邮件方式通知您结果。',
+      },
     };
   },
   created() {
@@ -58,11 +68,34 @@ export default {
   methods: {
     async handleGetGood(data) {
       const user = storage.get('user');
-      const result = await getValidProducts({
-        userId: user.userId,
-        productId: data.productId,
-      });
-      console.log(result);
+
+      try {
+        await getValidProducts({
+          userId: user.userId,
+          productId: data.productId,
+        });
+
+        await getFreeProducts({
+          userId: user.userId,
+          productId: data.productId,
+        });
+
+        await this.$confirm(this.tips.success, 'Tips', {
+          confirmButtonText: 'Sure',
+          type: 'success'
+        });
+      } catch (err) {
+        if (err.code === 213) {
+          await this.$confirm(this.tips.amazon, 'Tips', {
+            confirmButtonText: 'Sure',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          });
+
+          this.$router.push('/personal');
+        }
+        console.log(err);
+      }
     },
     async getProductsList() {
       const payload = {
@@ -72,6 +105,7 @@ export default {
           country: '',
           type: 0,
           status: 1,
+          searchName: this.searchName,
         },
       };
       this.list = [];
@@ -227,6 +261,22 @@ export default {
       font-size: 30px;
       margin-top: 28px;
       font-weight: 600;
+    }
+
+    .home-list-loading {
+      box-sizing: border-box;
+      padding-top: 100px;
+      text-align: center;
+      height: 400px;
+      font-size: 30px;
+      color: #909399;
+
+      > div {
+        margin-top: 10px;
+      }
+      .el-icon-loading {
+        font-size: 50px;
+      }
     }
   }
 </style>

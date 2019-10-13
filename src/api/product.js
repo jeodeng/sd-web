@@ -17,3 +17,11 @@ export function getValidProducts(data) {
   })
 }
 
+export function getFreeProducts(data) {
+  const { userId, productId } = data;
+  return request({
+    url: `/product/take/${userId}/${productId}`,
+    method: 'post',
+    data
+  })
+}

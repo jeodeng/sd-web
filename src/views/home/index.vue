@@ -24,8 +24,8 @@
       <h4 class="home-list-title">
         ★ On Sale ★
       </h4>
-      <div class="home-list" v-if="list && list.length > 0">
-        <good-view v-for="(item, index) in list" :key="index" :data="item" @get="handleGetGood"></good-view>
+      <div class="home-list" v-if="!loading">
+        <good-view v-for="(item, index) in list" :key="index" :data="item" @get="handleGetGood" @cart="handleAddCart"></good-view>
       </div>
       <div class="home-list-loading" v-else>
         <div>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { getProducts, getValidProducts, getFreeProducts } from '@/api/product';
 import storage from '@/utils/storage';
 import goodView from '@/components/goodView.vue';
@@ -59,15 +60,38 @@ export default {
         amazon: 'Your account has not yet been bound to Amazon account, Amazon ID to get products, do you want to bind Amazon account immediately?',
         // success: 'Your application is waiting for the staff to process. Please wait patiently. We will inform you of the result by mail.',
         success: '您的领取申请正在等待工作人员处理，请耐心等待，我们会以邮件方式通知您结果。',
+        // login: 'This operation needs to be logged in first. Is it logged in immediately?',
+        login: '该操作需要先登录，是否立即登录？',
       },
+      loading: false,
     };
+  },
+  computed: {
+    ...mapGetters([
+      'country',
+    ]),
+  },
+  watch: {
+    country(val) {
+      this.getProductsList();
+    },
   },
   created() {
     this.getProductsList();
   },
   methods: {
+    // 立即获取
     async handleGetGood(data) {
       const user = storage.get('user');
+      if (!user) {
+        await this.$confirm(this.tips.login, 'Tips', {
+          confirmButtonText: 'Sure',
+          type: 'warning'
+        });
+
+        this.$store.commit('toggleLogin', true);
+        return;
+      }
 
       try {
         await getValidProducts({
@@ -93,24 +117,54 @@ export default {
           });
 
           this.$router.push('/personal');
+        } else {
+          if (err.errorMsg) this.$message.error(err.errorMsg);
         }
         console.log(err);
       }
     },
+    // 加载商品列表
     async getProductsList() {
       const payload = {
         pageId: 1,
         size: 20,
         quertData: {
-          country: '',
+          country: this.country,
           type: 0,
           status: 1,
           searchName: this.searchName,
         },
       };
+
+      this.loading = true;
       this.list = [];
       const { data: res } = await getProducts(payload);
       this.list = res.records;
+      this.loading = false;
+    },
+    // 加入购物车
+    async handleAddCart(data) {
+      const user = storage.get('user');
+      if (!user) {
+        await this.$confirm(this.tips.login, 'Tips', {
+          confirmButtonText: 'Sure',
+          type: 'warning'
+        });
+
+        this.$store.commit('toggleLogin', true);
+        return;
+      }
+
+      const list = JSON.parse(JSON.stringify(this.$store.state.cartList));
+
+      if (list.find(i => i.productId === data.productId)) {
+        this.$message.error('Only one can be added.');
+        return;
+      }
+      list.push(data);
+
+      storage.set('cart', list);
+      this.$store.commit('SET_CART_LIST', list);
     },
   },
 };
@@ -240,11 +294,10 @@ export default {
 
       .good-view {
         width: 18%;
-        height: 274px;
         margin-top: 20px;
         margin-right: 20px;
         .view-main {
-          padding: 10px 0;
+          padding: 10px 0 0;
         }
       }
     }

@@ -54,8 +54,8 @@ import wHeader from '@/components/header.vue';
 import shopCart from '@/components/shopCart.vue';
 
 const buildLoginForm = () => ({
-  username: '345369367@qq.com',
-  password: '123456',
+  username: '',
+  password: '',
 });
 
 export default {
@@ -102,6 +102,7 @@ export default {
       const { loginForm } = this;
       await this.$store.dispatch('userLogin', loginForm);
       this.$store.commit('toggleLogin', false);
+      location.reload();
     },
   },
 };

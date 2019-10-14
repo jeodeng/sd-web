@@ -7,17 +7,17 @@
           <el-button type="text" size="small" @click="handleHome" :style="{ color: '#fff' }">Welcome！{{ name }}</el-button>
         </div>
         <div class="right">
-          <el-button type="text" size="small">Help</el-button>
+          <el-button type="text" size="small" @click="handleContact">Contact</el-button>
           <el-button type="text" size="small" @click="handleSignIn" v-if="!token">Sign in</el-button>
           <el-button type="text" size="small" class="border" @click="handleSignUp()" v-if="!token">Sign up</el-button>
           <el-dropdown trigger="click" @command="handleClickNation" size="small">
             <span class="el-dropdown-link">
-              {{ curNation === '' ? 'Language' : nationKeys.find(i => i.key === curNation).name }}
+              {{ country === '' ? 'Language' : curCountry.name }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item
-                v-for="item in nationKeys"
+                v-for="item in countryKeys"
                 :key="item.key"
                 :command="item.key">
                 {{ item.name }}
@@ -46,18 +46,15 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
+import { getDics } from '@/api/common'
+import storage from '@/utils/storage'
 
 export default {
   data() {
     return {
       search: '',
-      curNation: '',
-      nationKeys: [
-        { key: '0', name: '中国' },
-        { key: '1', name: '法国' },
-        { key: '2', name: '意大利' },
-      ],
+      countryKeys: [],
       personalKeys: [
         { key: '0', name: 'Settings' },
         { key: '1', name: 'Sign Out', divided: true },
@@ -67,14 +64,28 @@ export default {
   computed: {
     ...mapGetters([
       'token',
-      'name'
+      'name',
+      'country',
     ]),
+    curCountry() {
+      const { country, countryKeys } = this;
+      const item = this.countryKeys.find(i => i.key === country);
+
+      return item || countryKeys[0];
+    },
   },
-  mounted() {
+  async mounted() {
+    const user = storage.get('user');
+    await this.getCountryKeys();
+
+    if (user) {
+      const item = this.countryKeys.find(i => i.key === user.country);
+      if (item) this.handleClickNation(user.country);
+    }
   },
   methods: {
     handleClickNation(key) {
-      this.curNation = key;
+      this.$store.commit('SET_COUNTRY', key);
     },
     async handleClickPersonal(key) {
       switch (key) {
@@ -89,6 +100,10 @@ export default {
         default: break;
       }
     },
+    async getCountryKeys() {
+      const { data } = await getDics('country_type');
+      this.countryKeys = Object.entries(data).map((kv) => ({ key: kv[0], name: kv[1] }));
+    },
     handleSignIn() {
       this.$store.commit('toggleLogin', true);
     },
@@ -97,6 +112,9 @@ export default {
     },
     handleHome() {
       this.$router.push('/home');
+    },
+    handleContact() {
+      this.$router.push('/contact');
     },
   },
 };
@@ -122,6 +140,11 @@ export default {
       .left, .right {
         display: flex;
         align-items: center;
+      }
+
+      .right .el-dropdown {
+        position: relative;
+        top: -1px;
       }
 
       .el-button {

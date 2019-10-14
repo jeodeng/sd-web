@@ -1,6 +1,6 @@
 <template>
   <!-- 购物车组件 -->
-  <div class="shop-cart">
+  <div class="shop-cart" @click="goCart">
     <el-badge :value="cartNum" class="item">
       <i class="cart-icon" :class="shopCartClass"></i>
     </el-badge>
@@ -8,10 +8,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { getToken } from '@/utils/auth'
+import storage from '@/utils/storage'
 
 export default {
   data() {
     return {
+      tips: {
+        // login: 'This operation needs to be logged in first. Is it logged in immediately?',
+        login: '该操作需要先登录，是否立即登录？',
+      },
     };
   },
   computed: {
@@ -23,8 +29,29 @@ export default {
     },
   },
   mounted() {
+    const token = getToken();
+    const cartList = storage.get('cart');
+
+    if (token && cartList) {
+      this.$store.commit('SET_CART_LIST', cartList);
+    }
   },
   methods: {
+    async goCart() {
+      const token = getToken();
+
+      if (!token) {
+        await this.$confirm(this.tips.login, 'Tips', {
+          confirmButtonText: 'Sure',
+          type: 'warning'
+        });
+
+        this.$store.commit('toggleLogin', true);
+        return;
+      }
+
+      this.$router.push('/cart');
+    },
   },
 };
 </script>

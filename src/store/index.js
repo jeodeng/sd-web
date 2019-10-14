@@ -8,16 +8,17 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   getters: {
+    country: state => state.country,
     token: state => state.token,
     name: state => state.user ? state.user.name : '',
-    cartNum: state => state.cartNum,
+    cartNum: state => state.cartList.length,
   },
   state: {
     token: null,
     hasShowLogin: false,
     user: null,
-    cartNum: 0,
     cartList: [],
+    country: '',
   },
   mutations: {
     toggleLogin(state, val = false) {
@@ -28,6 +29,12 @@ const store = new Vuex.Store({
     },
     SET_USER(state, val) {
       state.user = val;
+    },
+    SET_CART_LIST(state, val) {
+      state.cartList = val;
+    },
+    SET_COUNTRY(state, val) {
+      state.country = val;
     },
   },
   actions: {

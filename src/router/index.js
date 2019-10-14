@@ -16,10 +16,10 @@ export const constantRoutes = [
     path: '/register',
     component: () => import('@/views/register'),
   },
-  // {
-  //   path: '/product',
-  //   component: () => import('@/views/product'),
-  // },
+  {
+    path: '/cart',
+    component: () => import('@/views/cart'),
+  },
   {
     path: '/category',
     component: () => import('@/views/category'),
@@ -27,6 +27,10 @@ export const constantRoutes = [
   {
     path: '/personal',
     component: () => import('@/views/personal'),
+  },
+  {
+    path: '/contact',
+    component: () => import('@/views/contact'),
   },
 ]
 

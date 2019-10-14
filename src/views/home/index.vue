@@ -58,10 +58,10 @@ export default {
       list: [],
       tips: {
         amazon: 'Your account has not yet been bound to Amazon account, Amazon ID to get products, do you want to bind Amazon account immediately?',
-        // success: 'Your application is waiting for the staff to process. Please wait patiently. We will inform you of the result by mail.',
-        success: '您的领取申请正在等待工作人员处理，请耐心等待，我们会以邮件方式通知您结果。',
-        // login: 'This operation needs to be logged in first. Is it logged in immediately?',
-        login: '该操作需要先登录，是否立即登录？',
+        success: 'Your application is waiting for the staff to process. Please wait patiently. We will inform you of the result by mail.',
+        // success: '您的领取申请正在等待工作人员处理，请耐心等待，我们会以邮件方式通知您结果。',
+        login: 'This operation needs to be logged in first. Is it logged in immediately?',
+        // login: '该操作需要先登录，是否立即登录？',
       },
       loading: false,
     };
@@ -152,6 +152,16 @@ export default {
         });
 
         this.$store.commit('toggleLogin', true);
+        return;
+      }
+
+      try {
+        await getValidProducts({
+          userId: user.userId,
+          productId: data.productId,
+        });
+      } catch (err) {
+        if (err.errorMsg) this.$message.error(err.errorMsg);
         return;
       }
 
@@ -293,12 +303,16 @@ export default {
       flex-wrap: wrap;
 
       .good-view {
-        width: 18%;
+        width: 200px;
         margin-top: 20px;
-        margin-right: 20px;
+        margin-right: 25px;
         .view-main {
           padding: 10px 0 0;
         }
+      }
+
+      .good-view:nth-child(5n) {
+        margin-right: 0;
       }
     }
 

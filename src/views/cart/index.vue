@@ -67,6 +67,7 @@
 
 <script>
 import { getToken } from '@/utils/auth'
+import { getValidProducts, getFreeProducts } from '@/api/product';
 import storage from '@/utils/storage'
 
 export default {
@@ -93,6 +94,7 @@ export default {
     handleSelectionChange(val) {
       this.selects = val;
     },
+    // 从购物车移除
     async handleDelete(item) {
       await this.$confirm(this.tips.delete, 'Tips', {
         confirmButtonText: 'Sure',
@@ -102,8 +104,10 @@ export default {
       const { list } = this;
       const filter = list.filter(i => i.productId !== item.productId);
       storage.set('cart', filter);
+      this.$store.commit('SET_CART_LIST', filter);
       this.initList();
     },
+    // 初始化购物车列表
     initList() {
       const cart = storage.get('cart');
       const list = cart || [];
@@ -119,6 +123,7 @@ export default {
       this.list = Object.entries(result).map(kv => kv[1]);
       this.selects = [];
     },
+    // 获取请求
     async handleGet() {
       if (this.selects && this.selects.length <= 0) {
         this.$message.warning('Please choose the product you want.');
@@ -129,6 +134,49 @@ export default {
         cancelButtonText: 'Cancel',
         type: 'warning'
       });
+    },
+    // 立即获取
+    async handleGetGood(data) {
+      const user = storage.get('user');
+      if (!user) {
+        await this.$confirm(this.tips.login, 'Tips', {
+          confirmButtonText: 'Sure',
+          type: 'warning'
+        });
+
+        this.$store.commit('toggleLogin', true);
+        return;
+      }
+
+      try {
+        await getValidProducts({
+          userId: user.userId,
+          productId: data.productId,
+        });
+
+        await getFreeProducts({
+          userId: user.userId,
+          productId: data.productId,
+        });
+
+        await this.$confirm(this.tips.success, 'Tips', {
+          confirmButtonText: 'Sure',
+          type: 'success'
+        });
+      } catch (err) {
+        if (err.code === 213) {
+          await this.$confirm(this.tips.amazon, 'Tips', {
+            confirmButtonText: 'Sure',
+            cancelButtonText: 'Cancel',
+            type: 'warning'
+          });
+
+          this.$router.push('/personal');
+        } else {
+          if (err.errorMsg) this.$message.error(err.errorMsg);
+        }
+        console.log(err);
+      }
     },
   },
 };

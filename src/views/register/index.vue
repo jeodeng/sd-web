@@ -64,9 +64,9 @@ import { register } from '@/api/user';
 
 function buildFormData() {
   return {
-    name: 'dsj',
-    email: '345369367@qq.com',
-    password: '123456',
+    name: '',
+    email: '',
+    password: '',
     facebookId: '',
     commonEmail: '',
     amazonId: '',

@@ -15,7 +15,7 @@
 
       </div>
       <div class="home-view">
-        <div class="home-view-btn">
+        <div class="home-view-btn" @click="goMore">
           <span>More Products</span>
         </div>
       </div>
@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="home-list-more" v-show="list && list.length > 0">
-        <el-button type="text">More >></el-button>
+        <el-button type="text" @click="goMore">More >></el-button>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@ export default {
       this.getProductsList();
     },
   },
-  created() {
+  mounted() {
     this.getProductsList();
   },
   methods: {
@@ -175,6 +175,9 @@ export default {
 
       storage.set('cart', list);
       this.$store.commit('SET_CART_LIST', list);
+    },
+    goMore() {
+      this.$router.push('/category');
     },
   },
 };
@@ -305,7 +308,7 @@ export default {
       .good-view {
         width: 200px;
         margin-top: 20px;
-        margin-right: 25px;
+        margin-right: 24px;
         .view-main {
           padding: 10px 0 0;
         }

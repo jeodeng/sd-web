@@ -150,7 +150,6 @@ export default {
       }
 
       .view-image {
-        visibility: hidden;
         border-radius: 4px;
         height: 180px;
         img {

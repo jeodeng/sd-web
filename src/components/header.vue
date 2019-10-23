@@ -7,7 +7,7 @@
           <el-button type="text" size="small" @click="handleHome" :style="{ color: '#fff' }">Welcome！{{ name }}</el-button>
         </div>
         <div class="right">
-          <el-button type="text" size="small" @click="handleContact">Contact</el-button>
+          <!-- <el-button type="text" size="small" @click="handleContact">Contact</el-button> -->
           <el-button type="text" size="small" @click="handleSignIn" v-if="!token">Sign in</el-button>
           <el-button type="text" size="small" class="border" @click="handleSignUp()" v-if="!token">Sign up</el-button>
           <el-dropdown trigger="click" @command="handleClickNation" size="small">

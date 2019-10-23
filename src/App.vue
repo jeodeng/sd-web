@@ -10,7 +10,7 @@
     <shop-cart v-show="hasShowCart"></shop-cart>
 
     <el-dialog
-      title="Sign in to XXX"
+      title="Sign in to GFS"
       :visible="hasShowLogin"
       width="360px"
       :close-on-click-modal="false"
@@ -21,7 +21,7 @@
             Email Address
           </div>
           <div class="ai-val">
-            <el-input placeholder="请输入用户名" v-model="loginForm.username" size="small"></el-input>
+            <el-input placeholder="Please input your username" v-model="loginForm.username" size="small"></el-input>
           </div>
         </div>
 
@@ -30,7 +30,7 @@
             Password
           </div>
           <div class="ai-val">
-            <el-input placeholder="请输入密码" auto-complete="new-password" v-model="loginForm.password" show-password width="80%"></el-input>
+            <el-input placeholder="Please input a password" auto-complete="new-password" v-model="loginForm.password" show-password width="80%"></el-input>
           </div>
         </div>
 
@@ -40,8 +40,8 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <div class="sign-in-dialog-tips">
-          <span>New to XXX ? </span>
-          <el-button type="text" @click="handleCloseSignIn">Create an account</el-button>
+          <span>New to GFS ? </span>
+          <el-button type="text" @click="handleCreateAccount">Create an account</el-button>
         </div>
       </span>
     </el-dialog>
@@ -103,6 +103,10 @@ export default {
       await this.$store.dispatch('userLogin', loginForm);
       this.$store.commit('toggleLogin', false);
       location.reload();
+    },
+    handleCreateAccount() {
+      this.handleCloseSignIn();
+      this.$router.push('/register');
     },
   },
 };

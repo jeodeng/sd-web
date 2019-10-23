@@ -94,6 +94,8 @@ export default {
     },
   },
   mounted() {
+    const { searchName } = this.$router.currentRoute.query;
+    if (searchName) this.searchName = searchName;
     this.getProductTypeKeys();
     this.getProductsList();
   },
@@ -169,6 +171,7 @@ export default {
       this.loading = false;
     },
     handleClickTag({ key }) {
+      this.searchName = '';
       this.curCategory = key || '';
       this.getProductsList();
     },

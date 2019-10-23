@@ -51,7 +51,7 @@
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.row, scope.$index)">
+              @click="handleDelete(scope.row)">
               Delete
             </el-button>
           </template>
@@ -84,6 +84,9 @@ export default {
       tips: {
         delete: 'Are you sure to remove the product?',
         sure: 'Are you sure these products are what you want?',
+        success: 'Your application is waiting for the staff to process. Please wait patiently. We will inform you of the result by mail.',
+        amazon: 'Your account has not yet been bound to Amazon account, Amazon ID to get products, do you want to bind Amazon account immediately?',
+        login: 'This operation needs to be logged in first. Is it logged in immediately?',
       },
     };
   },
@@ -95,12 +98,15 @@ export default {
       this.selects = val;
     },
     // 从购物车移除
-    async handleDelete(item) {
-      await this.$confirm(this.tips.delete, 'Tips', {
-        confirmButtonText: 'Sure',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-      });
+    async handleDelete(item, flag = true) {
+      if (flag) {
+        await this.$confirm(this.tips.delete, 'Tips', {
+          confirmButtonText: 'Sure',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        });
+      }
+
       const { list } = this;
       const filter = list.filter(i => i.productId !== item.productId);
       storage.set('cart', filter);
@@ -134,6 +140,11 @@ export default {
         cancelButtonText: 'Cancel',
         type: 'warning'
       });
+
+      await Promise.all(this.selects.map(data => this.handleGetGood(data)));
+      this.$message.success(this.tips.success);
+      await Promise.all(this.selects.map(data => this.handleDelete(data, false)));
+      this.selects = [];
     },
     // 立即获取
     async handleGetGood(data) {
@@ -157,11 +168,6 @@ export default {
         await getFreeProducts({
           userId: user.userId,
           productId: data.productId,
-        });
-
-        await this.$confirm(this.tips.success, 'Tips', {
-          confirmButtonText: 'Sure',
-          type: 'success'
         });
       } catch (err) {
         if (err.code === 213) {

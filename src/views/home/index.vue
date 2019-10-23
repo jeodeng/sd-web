@@ -2,15 +2,13 @@
   <div class="home">
     <div class="home-top">
       <div class="home-logo">
-        <span>
-          This is a Logo
-        </span>
+        <img src="../../assets/LOGO.png" alt="">
       </div>
       <div class="home-search">
         <div class="search-box">
           <div class="el-icon-search"></div>
           <input class="input" type="text" v-model="searchName" placeholder="search...">
-          <div class="el-icon-search btn" @click="getProductsList"></div>
+          <div class="el-icon-search btn" @click="handleSearch"></div>
         </div>
 
       </div>
@@ -80,6 +78,9 @@ export default {
     this.getProductsList();
   },
   methods: {
+    handleSearch() {
+      this.$router.push({ path: '/category', query: { searchName: this.searchName }});
+    },
     // 立即获取
     async handleGetGood(data) {
       const user = storage.get('user');
@@ -321,6 +322,10 @@ export default {
 
     .home-list-more {
       text-align: right;
+
+      .el-button--text {
+        color: #d61818;
+      }
     }
 
     .home-list-title {
@@ -329,7 +334,7 @@ export default {
       text-align: center;
       line-height: 60px;
       font-size: 30px;
-      margin-top: 28px;
+      // margin-top: 28px;
       font-weight: 600;
     }
 

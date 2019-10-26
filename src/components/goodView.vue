@@ -32,20 +32,6 @@
       <div class="view-button" @click="handleGetNow">
         Get Now
       </div>
-      <!-- <div class="view-wrap">
-        <el-button
-          size="small"
-          icon="el-icon-shopping-cart-full"
-          @click="handleAddCart(data)">
-          Add to Cart
-        </el-button>
-        <el-button
-          size="small"
-          icon="el-icon-star-on"
-          @click="handleGetNow(data)">
-          Get It Now
-        </el-button>
-      </div> -->
     </div>
   </div>
 </template>
@@ -95,12 +81,18 @@ export default {
       }
 
       .view-title {
+        padding-top: 6px;
         overflow: hidden;
         height: 20px;
         line-height: 20px;
         font-size: 16px;
         font-weight: 600;
         text-overflow: ellipsis;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
       }
 
       .view-des {
@@ -131,7 +123,7 @@ export default {
 
           .now {
             font-size: 18px;
-            color: #e10000;
+            color: #e62129;
           }
         }
 
@@ -141,7 +133,7 @@ export default {
           height: 22px;
           font-size: 16px;
           color: white;
-          background: #e10000;
+          background: #e62129;
           text-align: center;
           font-weight: 600;
           border-radius: 5px;
@@ -152,39 +144,17 @@ export default {
       .view-image {
         border-radius: 4px;
         height: 180px;
+        overflow: hidden;
         img {
           width: 100%;
           height: 100%;
-        }
-      }
-
-      .view-wrap {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        background: rgba(53, 53, 53, 0.35);
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-        transition: .3s;
-        opacity: 0;
-
-        .el-button+.el-button {
-          margin: 20px 0;
+          transition: .2s;
+          cursor: pointer;
         }
 
-        .el-button {
-          width: 64%;
-          font-size: 14px;
-
-          i {
-            margin-right: 4px;
-          }
+        img:hover {
+          transform: scale(1.1)
         }
-
       }
 
       .view-other {
@@ -213,7 +183,7 @@ export default {
         width: 100%;
         text-align: center;
         height: 36px;
-        background-color: #d61818;
+        background-color: #43d6ac;
         line-height: 34px;
         margin-top: 10px;
         color: #f1f1f1;
@@ -227,9 +197,5 @@ export default {
         background-color: #ca4141;
       }
     }
-
-    // .view-main:hover .view-wrap {
-    //   opacity: 1;
-    // }
   }
 </style>

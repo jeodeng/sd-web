@@ -286,7 +286,7 @@ export default {
       line-height: 20px;
 
       &:hover {
-        color: #d61818;
+        color: #43d6ac;
       }
     }
 
@@ -337,7 +337,7 @@ export default {
         text-align: center;
 
         .el-pagination.is-background .el-pager li:not(.disabled).active {
-          background-color: #d61818;
+          background-color: #43d6ac;
         }
       }
     }

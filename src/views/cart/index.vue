@@ -195,7 +195,7 @@ export default {
     &-title {
       font-weight: 600;
       font-size: 22px;
-      color: #d61818;
+      color: #43d6ac;
       margin-bottom: 32px;
     }
 

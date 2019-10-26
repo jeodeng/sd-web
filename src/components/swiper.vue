@@ -1,16 +1,20 @@
 <template>
-  <!-- 顶部业务组件 -->
-  <div class="swiper" :style="{ width, height }"
+  <!-- 轮播组件 -->
+  <div
+    class="swiper"
+    :style="{ width, height }"
     @mouseenter="handleStopAuto"
     @mouseleave="handleStartAuto">
     <div class="image">
-      <el-image
-        fit="fill"
-        v-for="(img, ind) in list"
-        :src="img.src"
-        :class="{ active: curDot === ind }"
-        :key="ind">
-      </el-image>
+      <transition-group name="image">
+        <el-image
+          fit="fill"
+          v-for="(img, ind) in list"
+          :src="img.src"
+          v-show="curDot === ind"
+          :key="img.src">
+        </el-image>
+      </transition-group>
     </div>
     <div class="btns" v-if="list && list.length > 1">
       <div class="pre" @click="handleClickPre">
@@ -44,7 +48,7 @@ export default {
     },
     height: {
       type: String,
-      default: () => '400px',
+      default: () => '100%',
     },
     width: {
       type: String,
@@ -118,12 +122,6 @@ export default {
       width: 100%;
       height: 100%;
       position: absolute;
-      opacity: 0;
-      transition: .8s;
-    }
-
-    .el-image.active {
-      opacity: 1;
     }
 
     .btns {
@@ -162,7 +160,7 @@ export default {
       .dot {
         cursor: pointer;
         transition: .3s;
-        margin: 0 2px;
+        margin: 0 4px;
         width: 10px;
         height: 10px;
         background: #b3b3b3;
@@ -173,6 +171,22 @@ export default {
         background: #5674fa;
       }
 
+    }
+
+    .image-enter-active {  // 过渡
+      transition: all 0.5s ease;
+    }
+
+    .image-leave-active {  // 过渡
+      transition: all 0.5s ease;
+    }
+
+    .image-enter {  //  开始进入动画的位置
+      transform: translateX(100%);
+    }
+
+    .image-leave-to {  // 结束消失的位置
+      transform: translateX(-100%);
     }
   }
 </style>

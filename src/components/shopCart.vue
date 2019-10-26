@@ -15,8 +15,7 @@ export default {
   data() {
     return {
       tips: {
-        // login: 'This operation needs to be logged in first. Is it logged in immediately?',
-        login: '该操作需要先登录，是否立即登录？',
+        login: 'This operation needs to be logged in first. Is it logged in immediately?',
       },
     };
   },
@@ -86,12 +85,12 @@ export default {
       background: #f9f9f9;
 
       .cart-icon {
-        color: #d61818;
+        color: #43d6ac;
       }
     }
 
     .el-badge__content {
-      background-color: #d61818;
+      background-color: #43d6ac;
     }
   }
 </style>

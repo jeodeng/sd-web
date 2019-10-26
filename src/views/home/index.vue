@@ -1,27 +1,20 @@
 <template>
   <div class="home">
-    <div class="home-top">
-      <div class="home-logo">
-        <img src="../../assets/LOGO.png" alt="">
+    <div class="home-category">
+      <div class="home-category-left">
+        <div class="home-category-tag" v-for="i in productTypeKeys" :key="i.key">{{ i.name }}</div>
       </div>
-      <div class="home-search">
-        <div class="search-box">
-          <div class="el-icon-search"></div>
-          <input class="input" type="text" v-model="searchName" placeholder="search...">
-          <div class="el-icon-search btn" @click="handleSearch"></div>
-        </div>
-
-      </div>
-      <div class="home-view">
-        <div class="home-view-btn" @click="goMore">
-          <span>More Products</span>
-        </div>
+      <div class="home-category-right">
+        <swiper></swiper>
       </div>
     </div>
     <div class="home-main">
-      <h4 class="home-list-title">
-        ★ On Sale ★
-      </h4>
+      <div class="home-list-title">
+        <h4>Influencer Specials</h4>
+        <div class="home-list-more">
+          <el-button type="text" @click="goMore">>>></el-button>
+        </div>
+      </div>
       <div class="home-list" v-if="!loading">
         <good-view v-for="(item, index) in list" :key="index" :data="item" @get="handleGetGood" @cart="handleAddCart"></good-view>
       </div>
@@ -43,12 +36,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getProducts, getValidProducts, getFreeProducts } from '@/api/product';
+import { getDics } from '@/api/common';
 import storage from '@/utils/storage';
 import goodView from '@/components/goodView.vue';
+import swiper from '@/components/swiper.vue';
 
 export default {
   components: {
     goodView,
+    swiper,
   },
   data() {
     return {
@@ -57,11 +53,10 @@ export default {
       tips: {
         amazon: 'Your account has not yet been bound to Amazon account, Amazon ID to get products, do you want to bind Amazon account immediately?',
         success: 'Your application is waiting for the staff to process. Please wait patiently. We will inform you of the result by mail.',
-        // success: '您的领取申请正在等待工作人员处理，请耐心等待，我们会以邮件方式通知您结果。',
         login: 'This operation needs to be logged in first. Is it logged in immediately?',
-        // login: '该操作需要先登录，是否立即登录？',
       },
       loading: false,
+      productTypeKeys: [],
     };
   },
   computed: {
@@ -76,6 +71,7 @@ export default {
   },
   mounted() {
     this.getProductsList();
+    this.getProductTypeKeys();
   },
   methods: {
     handleSearch() {
@@ -180,125 +176,52 @@ export default {
     goMore() {
       this.$router.push('/category');
     },
+    // 获取产品类型字典
+    async getProductTypeKeys() {
+      const { data } = await getDics('product_type');
+      this.productTypeKeys = Object.entries(data).map((kv) => ({ key: kv[0], name: kv[1] }));
+    },
   },
 };
 </script>
 
 <style lang='scss'>
   .home {
-    .home-top {
-      height: 100px;
+
+    .home-category {
+      margin-top: 10px;
       display: flex;
+      height: 340px;
 
-      .home-logo {
+      .home-category-left {
+        background: #fff;
         flex: 1;
-        max-width: 240px;
-        min-width: 240px;
+        width: 200px;
+        min-width: 200px;
+        max-width: 200px;
+        margin-right: 10px;
+        box-sizing: border-box;
+        padding: 10px;
         height: 100%;
+        overflow: hidden;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 40px;
-      }
-
-      .home-search {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
-        align-items: center;
-        padding-right: 60px;
-
-        .search-box {
-          border: 2px solid #d61818;
-          border-radius: 30px;
-          width: 70%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 38px;
-          box-sizing: border-box;
-          box-shadow: 2px 2px 2px 0px rgba(72, 68, 66, 0.35);
-
-          .el-icon-search {
-            flex: 1;
-            max-width: 30px;
-            min-width: 30px;
-            font-size: 12px;
-            text-align: center;
-          }
-
-          .el-icon-search.btn {
-            max-width: 60px;
-            min-width: 60px;
-            color: white;
-            background-color: #d61818;
-            height: 100%;
-            border-radius: 30px;
-            line-height: 34px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-right: -1px;
-          }
-
-          .input {
-            padding-right: 10px;
-            flex: 1;
-            border: none;
-            font-size: 14px;
-            background: transparent;
-          }
-        }
-      }
-
-      .home-cart {
-        flex: 1;
-        width: 160px;
-        max-width: 160px;
-        min-width: 160px;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-
-        .cart-box {
+        .home-category-tag {
           cursor: pointer;
-          box-sizing: border-box;
-          width: 108px;
-          height: 38px;
-          border-radius: 30px;
-          text-align: center;
-          border: 2px solid #d61818;
-          line-height: 34px;
-          font-size: 16px;
+          font-size: 14px;
+          line-height: 24px;
+          overflow: hidden;
+          text-overflow: ellipsis;
 
-          span {
-            margin-left: 6px;
+          &:hover {
+            color: #43d6ac;
           }
         }
       }
 
-      .home-view {
+      .home-category-right {
         flex: 1;
-        width: 160px;
-        max-width: 160px;
-        min-width: 160px;
-        align-items: center;
-        display: flex;
-        justify-content: center;
-
-        .home-view-btn {
-          background-color: #d61818;
-          width: 200px;
-          height: 40px;
-          line-height: 40px;
-          color: rgb(247, 247, 247);
-          text-align: center;
-          cursor: pointer;
-          transition: .3s;
-          font-size: 16px;
-          border-radius: 5px;
-          box-shadow: 2px 2px 2px 0px rgba(72, 68, 66, 0.35);
-        }
+        overflow: hidden;
+        height: 100%;
       }
     }
 
@@ -320,22 +243,36 @@ export default {
       }
     }
 
-    .home-list-more {
-      text-align: right;
+    .home-list-title {
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-      .el-button--text {
-        color: #d61818;
+      h4 {
+        color: #606266;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .home-list-more {
+        .el-button {
+          color: #606266;
+        }
       }
     }
 
-    .home-list-title {
-      background: #d61818;
-      color: rgb(247, 247, 247);
-      text-align: center;
-      line-height: 60px;
-      font-size: 30px;
-      // margin-top: 28px;
-      font-weight: 600;
+    .home-list-title::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      height: 2px;
+      width: 200px;
+      background-color: #606266;
     }
 
     .home-list-loading {

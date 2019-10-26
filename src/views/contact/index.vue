@@ -62,7 +62,7 @@ export default {
 
         .icon {
           font-size: 50px;
-          color: #d61818;
+          color: #43d6ac;
         }
 
         .name {

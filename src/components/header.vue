@@ -1,18 +1,27 @@
 <template>
   <!-- 顶部业务组件 -->
   <div class="header">
-    <div class="user-btns">
+    <div class="header-btns">
       <div class="main">
         <div class="left">
-          <el-button type="text" size="small" @click="handleHome" :style="{ color: '#fff' }">Welcome！{{ name }}</el-button>
+          <div class="left-logo" @click="handleHome">
+            <h3>100 Rebate</h3>
+            <p>Giveaway and Free Sample</p>
+          </div>
         </div>
         <div class="right">
-          <!-- <el-button type="text" size="small" @click="handleContact">Contact</el-button> -->
-          <el-button type="text" size="small" @click="handleSignIn" v-if="!token">Sign in</el-button>
-          <el-button type="text" size="small" class="border" @click="handleSignUp()" v-if="!token">Sign up</el-button>
+          <el-button class="nav" type="text" size="small" @click="handleContact">FAQ</el-button>
+          <el-button class="nav" type="text" size="small" @click="handleContact">Contact Us</el-button>
+          <div class="right-search">
+            <div class="search-box">
+              <div class="el-icon-search"></div>
+              <input class="input" type="text" v-model="searchName" placeholder="search...">
+              <div class="el-icon-search btn" @click="handleSearch"></div>
+            </div>
+          </div>
           <el-dropdown trigger="click" @command="handleClickNation" size="small">
             <span class="el-dropdown-link">
-              {{ country === '' ? 'Language' : curCountry.name }}
+              {{ country === '' ? 'Country' : curCountry.name }}
               <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
@@ -24,6 +33,8 @@
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
+          <el-button size="small" @click="handleSignIn" v-if="!token">Sign in</el-button>
+          <el-button size="small" type="primary" class="border" @click="handleSignUp()" v-if="!token">Sign up</el-button>
           <el-dropdown trigger="click" @command="handleClickPersonal" v-if="token" size="small">
             <span class="el-dropdown-link">
               Account
@@ -43,6 +54,16 @@
       </div>
 
     </div>
+    <div class="header-navigator">
+      <el-button
+        v-for="item in navigatorKeys"
+        :key="item.key"
+        type="text"
+        size="small"
+        @click="() => handleNavigator(item.key)">
+        {{ item.name }}
+      </el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -53,11 +74,17 @@ import storage from '@/utils/storage'
 export default {
   data() {
     return {
-      search: '',
+      searchName: '',
       countryKeys: [],
       personalKeys: [
         { key: '0', name: 'Settings' },
         { key: '1', name: 'Sign Out', divided: true },
+      ],
+      navigatorKeys: [
+        { key: '0', name: 'Categories' },
+        { key: '1', name: 'Lightning Deal' },
+        { key: '2', name: 'Deal in 7 Days' },
+        { key: '3', name: 'VIP Club' },
       ],
     };
   },
@@ -116,18 +143,31 @@ export default {
     handleContact() {
       this.$router.push('/contact');
     },
+    handleSearch() {
+      this.$router.push({ path: '/category', query: { searchName: this.searchName }});
+    },
+    handleNavigator(key) {
+      switch (key) {
+        case '0':
+          this.$router.push('/category');
+          break;
+        default: break;
+      }
+    },
   },
 };
 </script>
 <style lang='scss'>
   .header {
+    position: fixed;
+    top: 0;
     width: 100%;
-    height: 36px;
+    z-index: 100;
 
-    .user-btns {
+    .header-btns {
       font-size: 12px;
       background: #000;
-      height: 100%;
+      height: 65px;
       color: #f2f6fc;
 
       .main {
@@ -142,34 +182,104 @@ export default {
         align-items: center;
       }
 
-      .right .el-dropdown {
-        position: relative;
-        top: -1px;
+      .left {
+        .left-logo {
+          cursor: pointer;
+          user-select: none;
+          width: 160px;
+          h3 {
+            font-size: 22px;
+            font-style: italic;
+            font-weight: 600;
+            padding-bottom: 2px;
+          }
+          p {
+            font-size: 12px;
+          }
+        }
+      }
+
+      .right {
+        .right-search {
+          display: flex;
+          flex: 1;
+          justify-content: flex-end;
+          align-items: center;
+          margin: 0 24px;
+
+          .search-box {
+            width: 365px;
+            background: #fff;
+            border: 2px solid #43d6ac;
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 38px;
+            box-sizing: border-box;
+            box-shadow: 2px 2px 2px 0px rgba(255, 255, 255, 0.34);
+
+            .el-icon-search {
+              flex: 1;
+              max-width: 30px;
+              min-width: 30px;
+              font-size: 12px;
+              text-align: center;
+              color: #000;
+            }
+
+            .el-icon-search.btn {
+              max-width: 60px;
+              min-width: 60px;
+              color: white;
+              background-color: #43d6ac;
+              height: 100%;
+              border-radius: 30px;
+              line-height: 34px;
+              font-size: 18px;
+              cursor: pointer;
+              margin-right: -1px;
+            }
+
+            .input {
+              padding-right: 10px;
+              flex: 1;
+              border: none;
+              font-size: 14px;
+              background: transparent;
+            }
+          }
+        }
       }
 
       .el-button {
-        color: #ccc;
         box-sizing: border-box;
+        font-size: 12px;
+        padding: 8px 24px;
+        font-weight: 600;
+        user-select: none;
 
-        &:hover {
-          color: #f5f7fa;
+        &.nav {
+          color: #f2f6fc;
+          padding: 0;
+          margin-right: 10px;
         }
       }
+    }
 
-      .el-button.border {
-        border: 1px solid #ccc;
-        padding: 4px 6px;
-        border-radius: 0;
-        transition: .3s;
+    .header-navigator {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      border-bottom: 1px solid #cbcbcb;
+      background: #fff;
 
-        &:hover {
-          text-decoration: none;
-          border-color: #f5f7fa;
-        }
-      }
-
-      .el-button--text {
-        padding: 0;
+      .el-button {
+        font-size: 16px;
+        color: #606266;
+        font-weight: 500;
+        margin: 0 34px;
       }
     }
 
@@ -178,14 +288,13 @@ export default {
     }
 
     .el-dropdown {
-      margin-left: 18px;
+      margin-right: 18px;
     }
 
     .el-dropdown-link {
       cursor: pointer;
-      color: #cecece;
-      font-size: 12px;
-      line-height: 16px;
+      color: #f3f3f3;
+      user-select: none;
     }
 
     .el-dropdown-link:hover {

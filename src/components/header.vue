@@ -159,6 +159,7 @@ export default {
 </script>
 <style lang='scss'>
   .header {
+    visibility: hidden;
     position: fixed;
     top: 0;
     width: 100%;

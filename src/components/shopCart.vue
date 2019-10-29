@@ -56,14 +56,14 @@ export default {
 </script>
 <style lang='scss'>
   @media screen and (max-width: 1380px) {
-      .shop-cart {
-        right: 10px !important;
-      }
+    .shop-cart {
+      right: 10px !important;
+    }
   }
 
   .shop-cart {
     position: absolute;
-    right: 100px;
+    right: 50px;
     bottom: 200px;
     width: 70px;
     height: 70px;
@@ -71,6 +71,7 @@ export default {
     justify-content: center;
     align-items: center;
     border: 1px solid #eaeaea;
+    background-color: #fff;
     cursor: pointer;
     transition: .1s;
 

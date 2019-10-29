@@ -32,6 +32,10 @@ export const constantRoutes = [
     path: '/contact',
     component: () => import('@/views/contact'),
   },
+  {
+    path: '/product-detail',
+    component: () => import('@/views/product-detail'),
+  },
 ]
 
 const createRouter = () => new Router({

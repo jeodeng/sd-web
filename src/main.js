@@ -12,6 +12,7 @@ import router from '@/router';
 import store from '@/store';
 
 import '@/auth';
+import '@/icons' // icon
 
 Vue.use(ElementUI, { locale });
 

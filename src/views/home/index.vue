@@ -16,7 +16,14 @@
         </div>
       </div>
       <div class="home-list" v-if="!loading">
-        <good-view v-for="(item, index) in list" :key="index" :data="item" @get="handleGetGood" @cart="handleAddCart"></good-view>
+        <good-view
+          v-for="(item, index) in list"
+          :key="index"
+          :data="item"
+          @get="handleGetGood"
+          @cart="handleAddCart"
+          @detail="handleGoDetail">
+        </good-view>
       </div>
       <div class="home-list-loading" v-else>
         <div>
@@ -181,14 +188,19 @@ export default {
       const { data } = await getDics('product_type');
       this.productTypeKeys = Object.entries(data).map((kv) => ({ key: kv[0], name: kv[1] }));
     },
+    handleGoDetail(data) {
+      console.log(data);
+    },
   },
 };
 </script>
 
 <style lang='scss'>
   .home {
+    margin-bottom: 40px;
 
     .home-category {
+      visibility: hidden;
       margin-top: 10px;
       display: flex;
       height: 340px;
@@ -256,12 +268,6 @@ export default {
         font-size: 18px;
         font-weight: 600;
       }
-
-      .home-list-more {
-        .el-button {
-          color: #606266;
-        }
-      }
     }
 
     .home-list-title::after {
@@ -288,6 +294,13 @@ export default {
       }
       .el-icon-loading {
         font-size: 50px;
+      }
+    }
+
+    .home-list-more {
+      text-align: right;
+      .el-button {
+        color: #606266;
       }
     }
   }

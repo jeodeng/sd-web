@@ -1,20 +1,21 @@
+@import './icon_1/iconfont.css';
 @import './common.scss';
 
 #app {
   box-sizing: border-box;
   position: relative;
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100%;
-  padding-bottom: 40px;
-  // background-image: linear-gradient(180deg,rgba(27,31,35,.065),rgba(27,31,35,0))!important;
-  // background-repeat: no-repeat!important;
-  background-size: 100% 200px!important;
+  background-size: 100% 200px !important;
   background: #f2f2f2;
+  min-height: 100%;
+  padding-top: 106px;
+  padding-bottom: 240px;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
 }
@@ -65,8 +66,6 @@ body {
 }
 
 .container {
-  margin-top: 106px;
   position: relative;
-  min-height: calc(100% - 40px);
   overflow-y: auto;
 }

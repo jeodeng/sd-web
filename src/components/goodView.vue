@@ -5,7 +5,7 @@
       <div class="view-image">
         <img :src="data.imgPath" alt="">
       </div>
-      <div class="view-title">{{ data.productName }}</div>
+      <div class="view-title" @click="() => handleDetail(data)">{{ data.productName }}</div>
       <p class="view-des">{{ data.keyworder }}</p>
       <div class="view-other">
         <div class="view-left">
@@ -59,6 +59,9 @@ export default {
     handleGetNow() {
       this.$emit('get', this.data);
     },
+    handleDetail() {
+      this.$emit('detail', this.data);
+    },
   },
 };
 </script>
@@ -77,10 +80,11 @@ export default {
 
       .view-title, .view-des, .view-price, .view-other {
         padding: 0 10px;
-
+        visibility: hidden;
       }
 
       .view-title {
+        visibility: inherit;
         padding-top: 6px;
         overflow: hidden;
         height: 20px;
@@ -142,6 +146,7 @@ export default {
       }
 
       .view-image {
+        visibility: hidden;
         border-radius: 4px;
         height: 180px;
         overflow: hidden;
@@ -180,6 +185,7 @@ export default {
 
       .view-button {
         cursor: pointer;
+        visibility: hidden;
         width: 100%;
         text-align: center;
         height: 36px;
@@ -194,7 +200,7 @@ export default {
 
       .view-button:hover {
         color: #fff;
-        background-color: #ca4141;
+        background-color: #42e6b7;
       }
     }
   }

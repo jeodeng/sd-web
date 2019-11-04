@@ -25,3 +25,10 @@ export function getFreeProducts(data) {
     data
   })
 }
+
+export function getProductsDetail(id) {
+  return request({
+    url: `/product/${id}`,
+    method: 'post',
+  })
+}

@@ -10,9 +10,9 @@
         <el-image
           fit="fill"
           v-for="(img, ind) in list"
-          :src="img.src"
+          :src="img.imgUrl"
           v-show="curDot === ind"
-          :key="img.src">
+          :key="img.imgUrl">
         </el-image>
       </transition-group>
     </div>
@@ -36,15 +36,13 @@
   </div>
 </template>
 <script>
+import { getBanners } from '@/api/common';
+
 export default {
   props: {
-    list: {
+    banners: {
       type: Array,
-      default: () => [
-        { src: 'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg' },
-        { src: 'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg' },
-        { src: 'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg' },
-      ],
+      default: () => [],
     },
     height: {
       type: String,
@@ -67,14 +65,20 @@ export default {
     return {
       curDot: 0,
       timer: null,
+      list: this.banners,
     };
   },
   activated() {
   },
   mounted() {
-    if (this.isAuto) this.handleStartAuto();
+    this.init();
   },
   methods: {
+    async init() {
+      const { data } = await getBanners();
+      this.list = data;
+      if (this.isAuto) this.handleStartAuto();
+    },
     // 上一张
     handleClickPre() {
       const num = this.curDot;

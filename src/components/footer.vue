@@ -5,7 +5,7 @@
     <div class="footer-main">
       <div class="left">
         <div class="left-navigator">
-          <span v-for="item in navigators" :key="item.key">{{ item.name }}</span>
+          <span v-for="item in navigators" :key="item.key" @click="() => go(item.key)">{{ item.name }}</span>
         </div>
         <h4>Follow Us :</h4>
         <div class="left-icons">
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <p class="copyright" @click="test">Copyright © 2019 100R, Inc. or its affiliates</p>
+    <p class="copyright">Copyright © 2019 100R, Inc. or its affiliates</p>
   </div>
 </template>
 <script>
@@ -50,9 +50,14 @@ export default {
   mounted() {
   },
   methods: {
-    test() {
-      console.log(this.$refs.aaa.$el.clientWidth);
-    }
+    go(key) {
+      switch (key) {
+        case '1':
+          this.$router.push({ path: '/faq' });
+          break;
+        default: break;
+      }
+    },
   },
 };
 </script>
@@ -130,6 +135,10 @@ export default {
     .procedures {
       box-shadow: 0px -1px 4px 0px #DCDCDC;
       background: #fff;
+
+      .next {
+        margin: 0 30px;
+      }
     }
 
     .copyright {

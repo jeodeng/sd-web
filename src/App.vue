@@ -83,6 +83,7 @@ export default {
       const whiteList = [
         '/home',
         '/category',
+        '/product'
       ];
 
       const { path } = val;

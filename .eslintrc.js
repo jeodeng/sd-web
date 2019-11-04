@@ -196,6 +196,7 @@ module.exports = {
     'vue/attributes-order': 'off',
     'vue/html-closing-bracket-newline': 'off',
     'vue/html-indent': 'off',
-    'vue/v-bind-style': 'off'
+    'vue/v-bind-style': 'off',
+    'vue/no-parsing-error': 'off'
   }
 }

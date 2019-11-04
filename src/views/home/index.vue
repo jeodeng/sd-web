@@ -189,7 +189,7 @@ export default {
       this.productTypeKeys = Object.entries(data).map((kv) => ({ key: kv[0], name: kv[1] }));
     },
     handleGoDetail(data) {
-      console.log(data);
+      this.$router.push({ path: '/product', query: { productId: data.productId }});
     },
   },
 };
@@ -200,7 +200,6 @@ export default {
     margin-bottom: 40px;
 
     .home-category {
-      visibility: hidden;
       margin-top: 10px;
       display: flex;
       height: 340px;
@@ -242,7 +241,7 @@ export default {
       flex-wrap: wrap;
 
       .good-view {
-        width: 200px;
+        width: 220px;
         margin-top: 20px;
         margin-right: 24px;
         .view-main {

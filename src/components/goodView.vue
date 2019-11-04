@@ -19,10 +19,10 @@
       <div class="view-price">
         <div class="value">
           <span class="now">
-            $0.00
+            $ {{ data.discountPice }}
           </span>
           <span class="pre">
-            ${{ data.foreignPrice }}
+            ${{ data.actualPrice }}
           </span>
         </div>
         <div class="cart" @click="handleAddCart">
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="view-button" @click="handleGetNow">
-        Get Now
+        Free Get
       </div>
     </div>
   </div>
@@ -68,6 +68,7 @@ export default {
 <style lang='scss'>
   .good-view {
     box-sizing: border-box;
+    height: 400px;
 
     .view-main {
       border-radius: 4px;
@@ -80,7 +81,6 @@ export default {
 
       .view-title, .view-des, .view-price, .view-other {
         padding: 0 10px;
-        visibility: hidden;
       }
 
       .view-title {
@@ -108,6 +108,7 @@ export default {
         overflow: hidden;
         font-size: 14px;
         word-break: break-all;
+        height: 34px;
       }
 
       .view-price {
@@ -146,9 +147,8 @@ export default {
       }
 
       .view-image {
-        visibility: hidden;
         border-radius: 4px;
-        height: 180px;
+        height: 220px;
         overflow: hidden;
         img {
           width: 100%;
@@ -185,7 +185,6 @@ export default {
 
       .view-button {
         cursor: pointer;
-        visibility: hidden;
         width: 100%;
         text-align: center;
         height: 36px;

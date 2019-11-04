@@ -2,10 +2,12 @@
   <!-- 流程组件 -->
   <div class="procedures">
     <template v-for="(item, index) in steps">
-      <div class="icon" :key="item.icon">
-        <span :class="`iconfont icon-${item.icon}`" :style="{ color: item.color }"></span>
+      <div class="procudures-item" :key="item.icon">
+        <div class="icon">
+          <span :class="`iconfont icon-${item.icon}`" :style="{ color: item.color }"></span>
+        </div>
+        <div class="desc">{{ item.desc }}</div>
       </div>
-      <div class="desc" :key="item.desc">{{ item.desc }}</div>
       <div class="next el-icon-right" :key="item.index" v-if="index !== steps.length - 1"></div>
     </template>
   </div>
@@ -37,20 +39,24 @@ export default {
     justify-content: center;
     align-items: center;
 
-    .desc {
-      width: 100px;
-      font-size: 12px;
-    }
+    .procudures-item {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      .desc {
+          width: 100px;
+          font-size: 12px;
+        }
 
-    .icon {
-      margin-right: 16px;
-      .iconfont {
-        font-size: 58px;
+      .icon {
+        margin-right: 16px;
+        .iconfont {
+          font-size: 58px;
+        }
       }
     }
-
     .next {
-      margin: 0 30px;
       font-size: 30px;
       text-align: center;
       color: #b5b5b5;

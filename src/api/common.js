@@ -6,3 +6,13 @@ export function getDics(key = '') {
     method: 'get',
   })
 }
+
+export function getBanners() {
+  return request({
+    url: '/banner/img/list',
+    method: 'POST',
+    data: {
+      status: 1,
+    },
+  })
+}

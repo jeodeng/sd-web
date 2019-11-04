@@ -5,12 +5,13 @@
       <div class="main">
         <div class="left">
           <div class="left-logo" @click="handleHome">
-            <h3>100 Rebate</h3>
-            <p>Giveaway and Free Sample</p>
+            <img src="../assets/LOGO.png" alt="">
+            <!-- <h3>100 Rebate</h3>
+            <p>Giveaway and Free Sample</p> -->
           </div>
         </div>
         <div class="right">
-          <el-button class="nav" type="text" size="small" @click="handleContact">FAQ</el-button>
+          <el-button class="nav" type="text" size="small" @click="handleFAQ">FAQ</el-button>
           <el-button class="nav" type="text" size="small" @click="handleContact">Contact Us</el-button>
           <div class="right-search">
             <div class="search-box">
@@ -146,6 +147,9 @@ export default {
     handleSearch() {
       this.$router.push({ path: '/category', query: { searchName: this.searchName }});
     },
+    handleFAQ() {
+      this.$router.push({ path: '/faq' });
+    },
     handleNavigator(key) {
       switch (key) {
         case '0':
@@ -159,7 +163,6 @@ export default {
 </script>
 <style lang='scss'>
   .header {
-    visibility: hidden;
     position: fixed;
     top: 0;
     width: 100%;
@@ -196,6 +199,10 @@ export default {
           }
           p {
             font-size: 12px;
+          }
+
+          img {
+            width: 100%;
           }
         }
       }

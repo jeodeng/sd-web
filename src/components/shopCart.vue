@@ -91,7 +91,7 @@ export default {
     }
 
     .el-badge__content {
-      background-color: #43d6ac;
+      background-color: #e62129;
     }
   }
 </style>

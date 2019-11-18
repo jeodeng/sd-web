@@ -78,14 +78,17 @@ export default {
       .contact-list-item:hover {
         .icon {
           font-size: 58px;
+          color: rgb(18, 188, 255);
         }
 
         .name {
           font-size: 26px;
+          color: rgb(18, 188, 255);
         }
 
         .value {
           font-size: 22px;
+          color: rgb(18, 188, 255);
         }
       }
     }

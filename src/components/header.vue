@@ -155,7 +155,9 @@ export default {
         case '0':
           this.$router.push('/category');
           break;
-        default: break;
+        default:
+          this.$router.push({ path: '/category', query: { activeType: key }})
+          break;
       }
     },
   },

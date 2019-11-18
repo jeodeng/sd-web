@@ -9,7 +9,7 @@
         </div>
         <h4>Follow Us :</h4>
         <div class="left-icons">
-          <svg-icon :icon-class="icon.icon" v-for="icon in icons" :key="icon.icon" />
+          <svg-icon :icon-class="icon.icon" v-for="icon in icons" :key="icon.icon" @click="goContact" />
         </div>
       </div>
       <div class="right">
@@ -57,6 +57,9 @@ export default {
           break;
         default: break;
       }
+    },
+    goContact() {
+      this.$router.push({ path: '/contact' });
     },
   },
 };

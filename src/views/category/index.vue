@@ -1,7 +1,7 @@
 <template>
 <div class="category">
   <div class="category-title">
-    <span @click="handleClickTag({})">All Products {{ curCategory === '' ? '' : '>' }}</span>
+    <span @click="handleClickTag({})">{{ activeTypeName }} {{ curCategory === '' ? '' : '>' }}</span>
     <span class="tag" v-show="curCategory !== ''"> {{ curCategoryName }}</span>
   </div>
   <div class="category-search">
@@ -77,6 +77,7 @@ export default {
       pageNum: 1,
       total: 0,
       productTypeKeys: [],
+      activeType: null,
     };
   },
   computed: {
@@ -87,19 +88,35 @@ export default {
       if (this.curCategory && this.productTypeKeys.length > 0) return this.productTypeKeys.find(i => i.key === this.curCategory).name;
       return '';
     },
+    activeTypeName() {
+      const { activeType } = this;
+      switch (activeType) {
+        case 1: return 'Lightning Deal';
+        case 2: return 'Deal in 7 Days';
+        case 3: return 'VIP Club';
+        default: return 'All Products';
+      }
+    },
   },
   watch: {
+    '$route'() {
+      this.init();
+    },
     country(val) {
       this.getProductsList();
     },
   },
   mounted() {
-    const { searchName } = this.$router.currentRoute.query;
-    if (searchName) this.searchName = searchName;
-    this.getProductTypeKeys();
-    this.getProductsList();
+    this.init();
   },
   methods: {
+    init() {
+      const { searchName, activeType } = this.$router.currentRoute.query;
+      if (searchName) this.searchName = searchName;
+      this.activeType = Number(activeType) || null;
+      this.getProductTypeKeys();
+      this.getProductsList();
+    },
     // 立即获取
     async handleGetGood(data) {
       const user = storage.get('user');
@@ -145,7 +162,7 @@ export default {
     },
     // 加载商品列表
     async getProductsList(params = {}) {
-      const { pageSize, country, searchName, curCategory } = this;
+      const { pageSize, country, searchName, curCategory, activeType } = this;
 
       const payload = {
         pageId: params.pageNum || 1,
@@ -156,6 +173,7 @@ export default {
           status: 1,
           searchName: searchName,
           productType: curCategory,
+          activeType: activeType,
         },
       };
 

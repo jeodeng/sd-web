@@ -21,7 +21,14 @@
   </div>
 
   <div class="category-list" v-if="!loading && list && list.length > 0">
-    <good-view v-for="(item, index) in list" :key="index" :data="item" @get="handleGetGood" @cart="handleAddCart"></good-view>
+    <good-view
+      v-for="(item, index) in list"
+      :key="index"
+      :data="item"
+      @get="handleGetGood"
+      @cart="handleAddCart"
+      @detail="handleGoDetail">
+    </good-view>
   </div>
   <div class="category-list-no" v-else-if="!loading && list && list.length === 0">
     No related products
@@ -235,6 +242,9 @@ export default {
     async getProductTypeKeys() {
       const { data } = await getDics('product_type');
       this.productTypeKeys = Object.entries(data).map((kv) => ({ key: kv[0], name: kv[1] }));
+    },
+    handleGoDetail(data) {
+      this.$router.push({ path: '/product', query: { productId: data.productId }});
     },
   }
 };

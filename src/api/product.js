@@ -28,7 +28,7 @@ export function getFreeProducts(data) {
 
 export function getProductsDetail(id) {
   return request({
-    url: `/product/${id}`,
+    url: `/product/detail/${id}`,
     method: 'post',
   })
 }

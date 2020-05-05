@@ -25,7 +25,7 @@ module.exports = {
    */
   publicPath: './',
   outputDir: 'dist',
-  assetsDir: 'webstatic',
+  assetsDir: 'information',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
@@ -39,7 +39,7 @@ module.exports = {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: 'http://211.149.213.189:8081/api',
+        target: 'http://www.100rebate.com/api',
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

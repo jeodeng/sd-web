@@ -1,18 +1,9 @@
 import request from '@/utils/request'
 
-export function getDics(key = '') {
+export function postInformation(data) {
   return request({
-    url: `/dict/list/${key}`,
-    method: 'get',
-  })
-}
-
-export function getBanners() {
-  return request({
-    url: '/banner/img/list',
+    url: '/user/adress/add',
     method: 'POST',
-    data: {
-      status: 1,
-    },
+    data,
   })
 }
